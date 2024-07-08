@@ -28,6 +28,10 @@ START_TIME = dt_time.fromisoformat(os.getenv('START_TIME', '05:14:00'))
 END_TIME = dt_time.fromisoformat(os.getenv('END_TIME', '15:30:00'))
 CHECK_INTERVAL = int(os.getenv('CHECK_INTERVAL', '100'))  # in seconds
 
+logging.info(f"Environment variables: RDS_HOST={RDS_HOST}, RDS_PORT={RDS_PORT}, RDS_USER={RDS_USER}, RDS_DATABASE={RDS_DATABASE}")
+logging.info(f"DHAN_CLIENT_ID={CLIENT_ID}, DHAN_ACCESS_TOKEN={ACCESS_TOKEN}")
+logging.info(f"START_TIME={START_TIME}, END_TIME={END_TIME}, CHECK_INTERVAL={CHECK_INTERVAL}")
+
 dhan = dhanhq(CLIENT_ID, ACCESS_TOKEN)
 
 def get_db_connection():
@@ -224,6 +228,9 @@ def is_work_hours():
     return START_TIME <= now <= END_TIME
 
 def job():
+    now = datetime.now()
+    logging.info(f"Current server time: {now}")
+
     if is_weekday() and is_work_hours():
         try:
             check_and_trigger_orders()
@@ -233,6 +240,7 @@ def job():
         logging.info("Outside of work hours. Sleeping...")
 
 def main():
+    logging.info(f"Check interval set to {CHECK_INTERVAL} seconds")
     schedule.every(CHECK_INTERVAL).seconds.do(job)
     
     while True:
