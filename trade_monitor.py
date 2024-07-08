@@ -24,7 +24,7 @@ CLIENT_ID = os.getenv('DHAN_CLIENT_ID')
 ACCESS_TOKEN = os.getenv('DHAN_ACCESS_TOKEN')
 
 # Schedule settings
-START_TIME = dt_time.fromisoformat(os.getenv('START_TIME', '09:14:00'))
+START_TIME = dt_time.fromisoformat(os.getenv('START_TIME', '05:14:00'))
 END_TIME = dt_time.fromisoformat(os.getenv('END_TIME', '15:30:00'))
 CHECK_INTERVAL = int(os.getenv('CHECK_INTERVAL', '100'))  # in seconds
 
